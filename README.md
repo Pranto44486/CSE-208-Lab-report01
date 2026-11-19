@@ -1,73 +1,94 @@
 Weighted Graph Network Analysis in C
-Project Overview
-This project analyzes a weighted, undirected graph that represents a
-network of sites and connections. Each vertex represents a site, and
-each edge represents a connection with an associated cost.
-
-The program applies Dijkstra's algorithm to find a shortest path between
-a selected source and destination. It also constructs Minimum Spanning
-Trees (MSTs) using Kruskal's and Prim's algorithms. Breadth-First Search
-(BFS) is used to trace a path through each MST. Finally, the program
-removes a selected edge and recalculates the paths to examine changes in
-the network.
+A C programming project that analyzes a weighted, undirected graph using
+Dijkstra's, Kruskal's, and Prim's algorithms. It compares
+shortest paths and Minimum Spanning Trees (MSTs) before and after
+removing a selected edge.
 Table of Contents
-1. Objectives
-2. Problem Analysis
-3. Solution Approach
-4. Implementation
-5. Input Format
-6. Testing
-7. Complexity Analysis
-8. Discussion
-9. Conclusion
-1. Objectives
-- Represent a network using a weighted, undirected graph.
-- Find the shortest path between a source and destination using
-  Dijkstra's algorithm.
-- Construct a Minimum Spanning Tree using Kruskal's algorithm.
-- Construct a Minimum Spanning Tree using Prim's algorithm.
-- Use Union-Find to detect and prevent cycles in Kruskal's algorithm.
-- Use BFS to trace paths in the generated MSTs.
-- Remove a selected edge and analyze the updated paths and network
-  connectivity.
-2. Problem Analysis
-The problem is to design a low-cost network using a weighted, undirected
-graph. Each vertex represents a site, and each edge represents a link
-with an installation cost.
+- Overview
+- Objectives
+- Problem Analysis
+- Algorithms and Techniques
+- Implementation
+- Input File Format
+- How to Compile and Run
+- Testing
+- Complexity Analysis
+- Discussion
+- Conclusion
+Overview
+The project models a network as a weighted, undirected graph: -
+Vertices represent locations or sites. - Edges represent
+connections between locations. - Weights represent connection or
+installation costs.
 
-Dijkstra's algorithm finds the shortest path between the given source
-and destination. Kruskal's and Prim's algorithms build Minimum Spanning
-Trees to provide alternative network structures. After a selected edge
-is removed, the program recalculates the paths and checks whether the
-network remains connected. If a path or spanning tree cannot be formed,
-the program reports that the graph is disconnected or that no path
-exists.
-3. Solution Approach
-1. Read the number of vertices and edges, followed by the edge details.
-2. Store the graph in an adjacency matrix and keep the edge list for
-   Kruskal's algorithm.
-3. Run Dijkstra's algorithm to find the shortest path from the source
-   to the destination.
-4. Run Kruskal's algorithm, using Union-Find to construct an MST
-   without cycles.
-5. Run Prim's algorithm to construct another MST.
-6. Use BFS to trace the source-to-destination path in each MST.
-7. Remove the selected edge and run the algorithms again to examine the
-   updated network.
-4. Implementation
-Programming language: C
+The program calculates the shortest path between a source and
+destination, constructs MSTs using Kruskal's and Prim's algorithms,
+removes a selected edge, and runs the algorithms again to observe how
+the network changes.
+Objectives
+1. Find the least-cost path between a source and destination using
+   Dijkstra's algorithm.
+2. Construct a Minimum Spanning Tree using Kruskal's algorithm.
+3. Construct a Minimum Spanning Tree using Prim's algorithm.
+4. Use the Union-Find technique to prevent cycles in Kruskal's
+   algorithm.
+5. Use Breadth-First Search (BFS) to trace the path in an MST.
+6. Remove a selected edge and analyze the updated network.
+7. Check whether a valid path or connected MST remains after edge
+   removal.
+Problem Analysis
+The problem is to design and analyze a low-cost network using a
+weighted, undirected graph. Each vertex represents a site, while each
+edge represents a link with an associated installation cost.
 
-Main algorithms and techniques:
-- Dijkstra's shortest-path algorithm
-- Kruskal's Minimum Spanning Tree algorithm
-- Prim's Minimum Spanning Tree algorithm
-- Union-Find (Disjoint Set)
-- Breadth-First Search (BFS)
-- Adjacency matrix and edge-list graph representations
-Save the source code as main.c. The program reads its input from a
-file named input.txt.
-5. Input Format
-The input file must follow this format:
+Dijkstra's algorithm finds the shortest path between the selected source
+and destination. Kruskal's and Prim's algorithms construct Minimum
+Spanning Trees to represent low-cost network connections. The program
+then removes a selected edge and recalculates the paths and MST-based
+routes. If the graph becomes disconnected, a valid connection may no
+longer be possible.
+Algorithms and Techniques
+  Algorithm / Technique               Purpose
+  Dijkstra's Algorithm                Finds the shortest path between the
+source and destination.
+
+  Kruskal's Algorithm                 Builds an MST by selecting edges in
+increasing order of weight.
+
+  Prim's Algorithm                    Builds an MST by repeatedly
+selecting the minimum-weight edge
+connecting selected and unselected
+vertices.
+
+  Union-Find (Disjoint Set)           Detects cycles while constructing
+the MST with Kruskal's algorithm.
+
+  Breadth-First Search (BFS)          Finds and prints the
+source-to-destination path in the
+constructed MST.
+
+  Edge Removal                        Removes the selected connection and
+allows the algorithms to analyze
+the updated graph.
+Connectivity Checking               Detects when a spanning tree or
+route cannot be formed.
+Implementation
+The program is implemented in C and uses an adjacency matrix to
+represent the graph. It also stores the edges in an edge list for
+Kruskal's algorithm.
+
+Main implementation components: - dijkstra() calculates and prints the
+shortest path. - kruskal() constructs an MST using sorted edges and
+Union-Find. - prim() constructs an MST by selecting minimum-weight
+connecting edges. - find() and join() implement the Union-Find
+operations. - printPath() uses BFS to trace a route through an MST. -
+main() reads the input file, runs the algorithms, removes the selected
+edge, and runs the analysis again.
+
+Save the C source code as main.c and place the required input.txt
+file in the program's working directory.
+Input File Format
+The program reads input from a file named input.txt.
 n m
 u1 v1 w1
 u2 v2 w2
@@ -75,93 +96,62 @@ u2 v2 w2
 um vm wm
 s d
 ru rv
-Where:
+Input description: - n = number of vertices - m = number of
+edges - u, v = endpoints of an edge - w = weight of an edge - s
+= source vertex - d = destination vertex - ru, rv = endpoints of
+the edge to be removed
 
-  Symbol     Description
-  n        Number of vertices
-m        Number of edges
-u, v     Endpoints of an edge
-w        Weight or cost of an edge
-s        Source vertex
-d        Destination vertex
-ru, rv   Endpoints of the edge to remove
-
-Input assumptions: Vertex numbering starts from 0. Edge weights
-must be positive because the program uses 0 in the adjacency matrix to
-represent the absence of an edge. Dijkstra's algorithm requires
-non-negative edge weights.
-6. Testing
-The supplied project material identifies two test cases but does not
-provide their input values or output results. Add the actual test inputs
-and captured program outputs here after running the program.
-
-The tests should check:
-- The shortest path before edge removal.
-- The Kruskal MST path before edge removal.
-- The Prim MST path before edge removal.
-- The updated shortest path after edge removal.
-- The updated Kruskal and Prim MST paths.
-- The program's response when removing an edge disconnects the graph.
-7. Complexity Analysis
-Let N be the number of vertices and M be the number of edges.
-
-  Algorithm / Operation                       Time Complexity in this implementation
-  Dijkstra (adjacency matrix)                                                O(N²)
-Kruskal (edge sorting and Union-Find)                                 O(M log M)
-Prim (adjacency matrix, as implemented)                                    O(N³)
-BFS path tracing (adjacency matrix)                                        O(N²)
-Edge removal in adjacency matrix                                            O(1)
-Space Complexity
-- Adjacency matrix: O(N²)
-- Edge list: O(M)
-- Parent, visited, distance, and queue arrays: O(N)
-- MST adjacency matrices: O(N²)
-Overall space complexity: O(N² + M).
-
-The algorithms are run both before and after edge removal. For this
-implementation, the total time is dominated by Prim's O(N³)
-implementation and Kruskal's O(M log M) edge sorting, giving
-O(N³ + M log M) overall.
-8. Discussion
-The program analyzes a weighted, undirected graph using Dijkstra's,
-Kruskal's, and Prim's algorithms. Dijkstra's algorithm calculates the
-shortest path between the selected source and destination. Kruskal's
-algorithm builds a Minimum Spanning Tree by considering edges in
-increasing order of weight, while Prim's algorithm grows an MST by
-adding the minimum-weight edge connecting a selected vertex to an
-unselected vertex.
-
-The program then removes a selected edge and recalculates the paths.
-Removing an edge may change the shortest path, the MST structure, or the
-connectivity of the network. The results can therefore be used to
-observe how graph algorithms respond to changes in a network.
-9. Conclusion
-This project implements Dijkstra's, Kruskal's, and Prim's algorithms to
-analyze a weighted, undirected graph. Dijkstra's algorithm finds a
-shortest path between two vertices, while Kruskal's and Prim's
-algorithms construct Minimum Spanning Trees. The program also removes a
-selected edge and recalculates the paths to examine changes in network
-structure and connectivity.
-
-Overall, the project demonstrates practical applications of
-shortest-path algorithms, minimum spanning trees, cycle detection, graph
-traversal, and network connectivity.
+Important notes: - Vertices are represented using integer indices,
+normally from 0 to n-1. - The adjacency matrix uses 0 to represent
+the absence of an edge; therefore, edge weights should be positive. -
+Dijkstra's algorithm requires non-negative edge weights.
 How to Compile and Run
-Requirements
-- GCC compiler
-- A C development environment
-- An input.txt file in the program's working directory
-Compile
+Linux / macOS
 gcc main.c -o graph
-Run
 ./graph
-On Windows:
+Windows (MinGW)
 gcc main.c -o graph.exe
 graph.exe
-The program opens input.txt automatically, so make sure the file is in
-the current working directory.
-Project: Weighted Graph Network Analysis
+Make sure input.txt is available in the program's current working
+directory before running the program.
+Testing
+The supplied project document contains headings for Case01 and
+Case02, but does not include the actual test inputs or outputs. Add
+your verified test cases here before publishing.
+
+For each test case, include: 1. The contents of input.txt. 2. The
+program output before edge removal. 3. The program output after edge
+removal. 4. Whether the graph remains connected.
+Complexity Analysis
+Let: - N = number of vertices - M = number of edges
+
+  Algorithm / Operation                           Time Complexity in This Implementation
+  Dijkstra (adjacency matrix)                                                    O(N²)
+Kruskal (edge sorting + Union-Find)                                       O(M log M)
+Prim (nested scans of the adjacency matrix)                                    O(N³)
+BFS path tracing (adjacency matrix)                                            O(N²)
+Removing an edge from the matrix                                                O(1)
+Space complexity                                                           O(N² + M)
+
+Overall note: The implemented Prim's algorithm scans the adjacency
+matrix to find the next minimum edge in each of up to N-1 iterations.
+Therefore, its time complexity is O(N³) in this implementation. The
+overall time for a complete run before and after edge removal is
+dominated by O(N³ + M log M).
+Discussion
+The program analyzes a weighted, undirected network using three graph
+algorithms. Dijkstra's algorithm calculates the shortest path between
+the selected source and destination, while Kruskal's and Prim's
+algorithms construct Minimum Spanning Trees. After a selected edge is
+removed, the program recalculates the routes and MST results. Comparing
+the results helps show how removing a connection can affect network
+paths, total connection cost, and connectivity.
+Conclusion
+This project demonstrates the use of Dijkstra's, Kruskal's, and Prim's
+algorithms in weighted graph analysis. It finds shortest paths,
+constructs Minimum Spanning Trees, and examines the effect of removing a
+selected edge. The program helps compare different graph algorithms and
+understand the importance of maintaining connectivity in a low-cost
+network.
 Language: C
-Algorithms: Dijkstra, Kruskal, Prim, Union-Find, and BFS
-Key concepts: Shortest Path, Minimum Spanning Tree, Edge Removal,
-and Graph Connectivity
+Project Topic: Weighted Undirected Graph Analysis
